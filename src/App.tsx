@@ -3,17 +3,15 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Menu, X } from 'lucide-react'
 import { LANGS, useLang } from './i18n'
 import Demo from './components/Demo'
+import { Lessons, Lifeline, Roadmap } from './components/Future'
 import { Edge, Explorer, Global, Journey, Platform, Station, Twin } from './components/Vision'
 import { Business, Capabilities, Doctors, Founder, Hero, How, NameSection, Next, Problem, Reveal, Section, Stakes, Trust, WhyNow } from './components/Story'
 
 function Aurora() {
   return (
-    <div className="aurora pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,#0F2A36_0%,#07131C_60%)]" />
-      <span style={{ width: '46vw', height: '46vw', left: '-10vw', top: '-12vw', background: '#0E7C6B' }} />
-      <span style={{ width: '38vw', height: '38vw', right: '-8vw', top: '20vh', background: '#1E5A8C', animationDelay: '-8s' }} />
-      <span style={{ width: '30vw', height: '30vw', left: '30vw', bottom: '-12vw', background: '#B7791F', opacity: 0.32, animationDelay: '-15s' }} />
-      <div className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(rgba(255,255,255,.5)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.5)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
+    <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden>
+      <div className="absolute inset-0 bg-night" />
+      <div className="absolute inset-x-0 top-0 h-[70vh] bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(86,199,179,0.09),transparent)]" />
     </div>
   )
 }
@@ -24,7 +22,7 @@ const PAGES: Exclude<Page, 'home'>[] = ['product', 'treatment', 'why-msi', 'busi
 const PAGE_TEXT = {
   en: {
     product: ['Product', 'How MSi works: the platform, the pipeline and the clinic scanning station.'],
-    treatment: ['Treatment map', 'Conditions, treatment history, where to treat, and the digital twin concept.'],
+    treatment: ['Treatment map', 'Where to treat, global case lessons, the personal medical lifeline and the digital twin concept.'],
     'why-msi': ['Why MSi', 'The problem up close, why it matters, and how MSi compares.'],
     business: ['Business', 'Business model, global plan and next steps.'],
     team: ['Team', 'Who is building MSi, and why now.'],
@@ -32,7 +30,7 @@ const PAGE_TEXT = {
   },
   ru: {
     product: ['Продукт', 'Как работает MSi: платформа, конвейер и станция сканирования.'],
-    treatment: ['Карта лечения', 'Болезни, история лечения, где лечиться и концепт цифрового двойника.'],
+    treatment: ['Карта лечения', 'Где лечиться, мировой опыт, медицинская история жизни и концепт цифрового двойника.'],
     'why-msi': ['Почему MSi', 'Проблема вблизи, почему это важно и сравнение с другими.'],
     business: ['Бизнес', 'Бизнес-модель, глобальный план и следующие шаги.'],
     team: ['Команда', 'Кто строит MSi и почему сейчас.'],
@@ -40,7 +38,7 @@ const PAGE_TEXT = {
   },
   uz: {
     product: ['Mahsulot', "MSi qanday ishlaydi: platforma, konveyer va skanerlash stansiyasi."],
-    treatment: ['Davolash xaritasi', "Kasalliklar, davolash tarixi, qayerda davolanish va Digital Twin konsepti."],
+    treatment: ['Davolash xaritasi', "Qayerda davolanish, global tajriba, umrbod tibbiy tarix va Digital Twin konsepti."],
     'why-msi': ['Nega MSi', "Muammo yaqindan, nega muhim va boshqalar bilan taqqoslash."],
     business: ['Biznes', "Biznes model, global reja va keyingi qadamlar."],
     team: ['Jamoa', "MSi ni kim quryapti va nega aynan hozir."],
@@ -90,7 +88,7 @@ function Nav({ page }: { page: Page }) {
     <header className="gutter fixed inset-x-0 z-50" style={{ top: 'calc(env(safe-area-inset-top, 0px) + 12px)' }}>
       <nav className={`mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full px-3 py-2 transition ${scrolled || open ? 'glass-strong' : 'border border-transparent'}`}>
         <a href="#home" className="flex items-center gap-2 pl-1">
-          <span className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-aqua to-teal font-display text-xs font-extrabold text-night">M</span>
+          <span className="grid h-8 w-8 place-items-center rounded-xl bg-aqua font-display text-xs font-semibold text-night">M</span>
           <span className="font-display text-base font-bold">MSi</span>
         </a>
         <div className="hidden items-center gap-0.5 lg:flex">
@@ -129,7 +127,7 @@ function PageHead({ page }: { page: Exclude<Page, 'home'> }) {
     <section className="gutter relative pb-4 pt-32 sm:pt-40">
       <div className="mx-auto max-w-6xl">
         <a href="#home" className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/80 hover:bg-white/10"><ArrowLeft size={13} />{P.back}</a>
-        <motion.h1 key={page} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="font-display text-4xl font-extrabold tracking-tight sm:text-6xl">{P[page][0]}</motion.h1>
+        <motion.h1 key={page} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="font-display text-4xl font-semibold tracking-tight sm:text-6xl">{P[page][0]}</motion.h1>
         <p className="lead mt-4 max-w-2xl">{P[page][1]}</p>
       </div>
     </section>
@@ -181,9 +179,9 @@ export default function App() {
       <Aurora />
       <Nav page={page} />
       <main key={page}>
-        {page === 'home' && (<><Hero /><Problem /><Capabilities /><DemoSection /><MoreLinks /><Next /></>)}
+        {page === 'home' && (<><Hero /><Problem /><Capabilities /><Roadmap /><DemoSection /><MoreLinks /><Next /></>)}
         {page === 'product' && (<><PageHead page="product" /><Platform /><How /><Station /><MoreLinks except="product" /></>)}
-        {page === 'treatment' && (<><PageHead page="treatment" /><Explorer /><Twin /><MoreLinks except="treatment" /></>)}
+        {page === 'treatment' && (<><PageHead page="treatment" /><Explorer /><Lessons /><Lifeline /><Twin /><MoreLinks except="treatment" /></>)}
         {page === 'why-msi' && (<><PageHead page="why-msi" /><Journey /><Stakes /><Edge /><Doctors /><Trust /><MoreLinks except="why-msi" /></>)}
         {page === 'business' && (<><PageHead page="business" /><Business /><Global /><Next /><MoreLinks except="business" /></>)}
         {page === 'team' && (<><PageHead page="team" /><Founder /><WhyNow /><NameSection /><MoreLinks except="team" /></>)}

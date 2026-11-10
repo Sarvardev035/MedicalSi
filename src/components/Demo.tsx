@@ -46,22 +46,22 @@ export default function Demo() {
     for (let i = 0; i < DOCS.length; i++) {
       if (!alive()) return
       setDocIdx(i)
-      await sleep(850)
+      await sleep(380)
     }
     if (!alive()) return
     setStage(1); setMasked(true); setDocIdx(0)
-    await sleep(1100)
+    await sleep(600)
     if (!alive()) return
     setStage(2)
     for (let i = 1; i <= FACTS.length; i++) {
       if (!alive()) return
       setShown(i)
       setDocIdx(DOCS.findIndex((x) => x.id === FACTS[i - 1].doc))
-      await sleep(140)
+      await sleep(80)
     }
     if (!alive()) return
     setStage(3)
-    await sleep(900)
+    await sleep(400)
     if (!alive()) return
     setStage(4)
     pick('D2', 'D2-4', false)
@@ -84,7 +84,7 @@ export default function Demo() {
       {/* header */}
       <div className="flex flex-wrap items-center justify-between gap-3 px-1 pb-4">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-aqua/40 to-amber/30 font-display text-sm font-bold">AK</div>
+          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 font-display text-sm font-bold">AK</div>
           <div className="min-w-0">
             <div className="truncate text-sm font-semibold">{d.patient}</div>
             <div className="truncate font-mono text-[11px] text-muted">{d.docsMeta}</div>
@@ -109,7 +109,7 @@ export default function Demo() {
           return (
             <div key={s} className="min-w-0">
               <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
-                <motion.div className="h-full bg-gradient-to-r from-aqua to-amber" initial={false} animate={{ width: done || (i === 4 && ready) ? '100%' : active ? '60%' : '0%' }} transition={{ duration: 0.5 }} />
+                <motion.div className="h-full bg-aqua" initial={false} animate={{ width: done || (i === 4 && ready) ? '100%' : active ? '60%' : '0%' }} transition={{ duration: 0.5 }} />
               </div>
               <div className={`mt-1.5 hidden truncate text-[11px] sm:block ${active ? 'text-white' : done ? 'text-aqua' : 'text-muted'}`}>{s}</div>
             </div>

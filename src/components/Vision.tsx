@@ -8,7 +8,6 @@ import { AlertTriangle, ArrowRight, Brain, CalendarRange, FileStack, ScanLine, C
 import { useT2 } from '../i18n2'
 import { CITIES, DISEASES, DRUGS, STING, type Disease } from '../explore'
 import { Reveal, Section } from './Story'
-import { HelixBg, NetworkBg, ScanBg } from './Live'
 
 function Head({ eyebrow, title, sub }: { eyebrow: string; title: string; sub?: string }) {
   return (
@@ -26,7 +25,6 @@ export function Journey() {
   const j = t2.journey
   return (
     <section className="gutter relative overflow-hidden py-20 sm:py-28">
-      <ScanBg className="opacity-70" />
       <div className="relative mx-auto max-w-6xl">
         <Head eyebrow={j.eyebrow} title={j.title} sub={j.sub} />
         <div className="relative">
@@ -55,7 +53,7 @@ export function Journey() {
             {j.numbers.map((n, i) => (
               <Reveal key={n.k + i} delay={i * 0.1}>
                 <div className="glass h-full rounded-2xl p-4 text-center">
-                  <div className="tabular font-display text-4xl font-extrabold text-amber">{n.k}</div>
+                  <div className="tabular font-display text-4xl font-semibold text-amber">{n.k}</div>
                   <div className="mt-1 text-xs leading-snug text-muted">{n.v}</div>
                 </div>
               </Reveal>
@@ -124,7 +122,6 @@ export function Platform() {
     s === 'live' ? 'border-aqua/50 bg-aqua/15 text-aqua' : s === 'next' ? 'border-sky-300/40 bg-sky-300/10 text-sky-200' : 'border-amber/40 bg-amber/10 text-amber'
   return (
     <Section id="platform">
-      <div className="pointer-events-none absolute right-0 top-0 hidden h-[520px] w-64 opacity-60 lg:block"><HelixBg /></div>
       <Head eyebrow={p.eyebrow} title={p.title} sub={p.sub} />
       <div className="mb-5 flex flex-wrap gap-2 text-[11px]">
         {(['live', 'next', 'research'] as const).map((s) => <span key={s} className={`rounded-full border px-2.5 py-1 font-mono uppercase tracking-wider ${chip(s)}`}>{p.status[s]}</span>)}
@@ -455,7 +452,6 @@ export function Global() {
   const icons = [Workflow, Languages, Server, Dna]
   return (
     <section id="global" className="gutter relative scroll-mt-20 overflow-hidden py-20 sm:py-28">
-      <NetworkBg className="opacity-60" />
       <div className="relative mx-auto max-w-6xl">
         <Head eyebrow={g.eyebrow} title={g.title} sub={g.sub} />
         <div className="relative mb-10">
@@ -501,7 +497,7 @@ export function Global() {
               <div className="grid grid-cols-2 gap-3">
                 {g.signals.map((s) => (
                   <div key={s.k} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                    <div className="tabular font-display text-2xl font-extrabold text-aqua">{s.k}</div>
+                    <div className="tabular font-display text-2xl font-semibold text-aqua">{s.k}</div>
                     <p className="mt-1 text-xs leading-snug text-white/80">{s.v}</p>
                     <div className="mt-2 font-mono text-[9px] uppercase tracking-wider text-muted">{s.src}</div>
                   </div>

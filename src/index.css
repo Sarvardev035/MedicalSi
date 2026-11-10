@@ -5,13 +5,13 @@
 /* Layout: one long scroll story over a fixed, softly moving aurora; content sits on frosted glass panes. */
 :root {
   color-scheme: dark;
-  --bg: #07131C;
+  --bg: #0A1016;
   --fg: #EAF4F2;
   --muted: #9FB6B6;
   --glass: rgba(255, 255, 255, 0.07);
   --glass-strong: rgba(255, 255, 255, 0.12);
   --edge: rgba(255, 255, 255, 0.16);
-  --aqua: #5EE6CF;
+  --aqua: #56C7B3;
   --amber: #FFC86B;
 }
 html { scroll-behavior: smooth; }
@@ -22,25 +22,28 @@ h1, h2, h3 { text-wrap: balance; }
 :focus-visible { outline: 2px solid var(--aqua); outline-offset: 2px; border-radius: 6px; }
 
 @layer components {
+  /* Product-style surfaces: flat, thin borders, no heavy glow. */
   .glass {
-    background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));
-    border: 1px solid var(--edge);
-    backdrop-filter: blur(18px) saturate(140%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.12) inset, 0 20px 50px -20px rgba(0,0,0,0.55);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
   }
   .glass-strong {
-    background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06));
-    border: 1px solid rgba(255,255,255,0.22);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset, 0 30px 60px -25px rgba(0,0,0,0.6);
+    background: rgba(16,24,31,0.86);
+    border: 1px solid rgba(255,255,255,0.11);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .panel {
+    background: #0F171E;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 24px 48px -32px rgba(0,0,0,0.7);
   }
   .eyebrow { @apply font-mono text-[11px] uppercase tracking-[0.18em] text-aqua; }
-  .h2 { @apply font-display text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl md:text-5xl; }
+  .h2 { @apply font-display text-[28px] font-semibold leading-[1.12] tracking-[-0.02em] sm:text-4xl md:text-[44px]; }
   .lead { @apply text-base leading-relaxed text-muted sm:text-lg; }
-  .btn-primary { @apply inline-flex items-center gap-2 rounded-full bg-aqua px-5 py-3 text-sm font-semibold text-[#062019] shadow-[0_10px_30px_-10px_rgba(94,230,207,.7)] transition hover:brightness-110; }
-  .btn-ghost { @apply inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10; }
+  .btn-primary { @apply inline-flex items-center gap-2 rounded-lg bg-aqua px-4 py-2.5 text-sm font-semibold text-[#06201A] transition hover:brightness-110; }
+  .btn-ghost { @apply inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/[0.07]; }
 }
 
 .aurora span { position: absolute; border-radius: 9999px; filter: blur(90px); opacity: .55; animation: drift 26s ease-in-out infinite alternate; }
