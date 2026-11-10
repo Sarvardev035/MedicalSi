@@ -3,12 +3,14 @@
 // family history) opens only with a one-time code the patient generates in their app.
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useMemo, useState } from 'react'
-import { AlertTriangle, ArrowLeft, Check, ChevronRight, FileText, KeyRound, Lock, LogOut, Search, ShieldCheck, Smartphone, Unlock } from 'lucide-react'
+import { Activity, AlertTriangle, ArrowLeft, Check, ChevronRight, FileText, KeyRound, Lock, LogOut, Search, ShieldCheck, Smartphone, Unlock, UserRound, Users2 } from 'lucide-react'
 import { LANGS, useLang, type Lang } from '../i18n'
 import { PATIENTS, type Lab, type Patient } from '../portalData'
+import { Network, Similar, Trends } from './PortalPlus'
 
 const T: Record<Lang, Record<string, string>> = {
   en: {
+    similar: 'Similar cases', mPatients: 'Patients', mTrends: 'Trends', mNet: 'Doctors network', aMsg: 'Message sent to',
     back: 'Back to site', demo: 'Demo · synthetic patients', doctor: 'Dr. N. Karimova (demo)', clinic: 'Demo Clinic, Tashkent',
     pass: 'Passport series and number', open: 'Open record', notFound: 'No patient with this passport in the demo.',
     today: 'Patients today', emptyT: 'Open a patient record', empty: 'Enter the patient’s passport, or pick a patient from the list. Demo passports:',
@@ -26,6 +28,7 @@ const T: Record<Lang, Record<string, string>> = {
     age: 'y', blood: 'Blood', note: 'Synthetic data. No real patient. Passports in the DM series do not exist.',
   },
   ru: {
+    similar: 'Похожие случаи', mPatients: 'Пациенты', mTrends: 'Тренды', mNet: 'Сеть врачей', aMsg: 'Отправлено сообщение:',
     back: 'Назад на сайт', demo: 'Демо · синтетические пациенты', doctor: 'Д-р Н. Каримова (демо)', clinic: 'Демо-клиника, Ташкент',
     pass: 'Серия и номер паспорта', open: 'Открыть карту', notFound: 'В демо нет пациента с таким паспортом.',
     today: 'Пациенты сегодня', emptyT: 'Откройте карту пациента', empty: 'Введите паспорт пациента или выберите из списка. Демо-паспорта:',
@@ -43,6 +46,7 @@ const T: Record<Lang, Record<string, string>> = {
     age: 'л', blood: 'Группа', note: 'Синтетические данные. Реальных пациентов нет. Паспортов серии DM не существует.',
   },
   uz: {
+    similar: 'O‘xshash holatlar', mPatients: 'Bemorlar', mTrends: 'Trendlar', mNet: 'Shifokorlar tarmog‘i', aMsg: 'Xabar yuborildi:',
     back: 'Saytga qaytish', demo: 'Demo · sintetik bemorlar', doctor: 'Dr. N. Karimova (demo)', clinic: 'Demo klinika, Toshkent',
     pass: 'Pasport seriyasi va raqami', open: 'Kartani ochish', notFound: 'Demoda bunday pasportli bemor yo‘q.',
     today: 'Bugungi bemorlar', emptyT: 'Bemor kartasini oching', empty: 'Bemor pasportini kiriting yoki ro‘yxatdan tanlang. Demo pasportlar:',
@@ -106,15 +110,16 @@ export default function Portal() {
   const [q, setQ] = useState('')
   const [pid, setPid] = useState<string | null>(null)
   const [err, setErr] = useState(false)
-  const [tab, setTab] = useState<'overview' | 'labs' | 'docs' | 'prot'>('overview')
+  const [tab, setTab] = useState<'overview' | 'labs' | 'similar' | 'docs' | 'prot'>('overview')
+  const [mode, setMode] = useState<'patients' | 'trends' | 'network'>('patients')
   const [docId, setDocId] = useState<string | null>(null)
   const [unlocked, setUnlocked] = useState<Set<string>>(new Set())
   const [request, setRequest] = useState<{ pid: string; code: string | null; until: number } | null>(null)
   const [entered, setEntered] = useState('')
   const [codeErr, setCodeErr] = useState(false)
-  const [log, setLog] = useState<{ time: string; pid: string; text: string }[]>([])
+  const [log, setLog] = useState<{ time: string; pid: string; text: string; extra?: string }[]>([])
   const p = PATIENTS.find((x) => x.id === pid) ?? null
-  const add = (pidv: string, text: string) => setLog((l) => [{ time: clock(), pid: pidv, text }, ...l].slice(0, 12))
+  const add = (pidv: string, text: string, extra?: string) => setLog((l) => [{ time: clock(), pid: pidv, text, extra }, ...l].slice(0, 12))
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -154,6 +159,18 @@ export default function Portal() {
           </div>
         </div>
       </header>
+      <nav className="border-b border-black/10 bg-white" aria-label="Portal">
+        <div className="mx-auto flex max-w-[1400px] gap-1 overflow-x-auto px-3 sm:px-5">
+          {([['patients', t.mPatients, UserRound], ['trends', t.mTrends, Activity], ['network', t.mNet, Users2]] as const).map(([k, l, I]) => (
+            <button key={k} onClick={() => { setMode(k); window.scrollTo(0, 0) }} aria-pressed={mode === k}
+              className={`flex shrink-0 items-center gap-1.5 border-b-2 px-3 py-2.5 text-[13px] ${mode === k ? 'border-teal font-semibold text-[#14212B]' : 'border-transparent text-[#5B6B7C] hover:text-[#14212B]'}`}><I size={14} />{l}</button>
+          ))}
+        </div>
+      </nav>
+
+      {mode === 'trends' && <div className="mx-auto max-w-[1400px] p-3 sm:p-5"><Trends lang={lang} /></div>}
+      {mode === 'network' && <div className="mx-auto max-w-[1400px] p-3 sm:p-5"><Network lang={lang} patient={p} onLog={(d) => p && add(p.id, 'aMsg', d)} /></div>}
+      {mode === 'patients' && (
 
       <div className="mx-auto grid max-w-[1400px] gap-4 p-3 sm:p-5 lg:grid-cols-[260px_1fr]">
         {/* left: search + list */}
@@ -210,7 +227,7 @@ export default function Portal() {
                   </div>
                 </div>
                 <nav className="-mb-3.5 mt-3 flex gap-1 overflow-x-auto border-t border-black/[0.06] pt-1">
-                  {([['overview', t.overview], ['labs', t.labs], ['docs', t.docs], ['prot', t.prot]] as const).map(([k, l]) => (
+                  {([['overview', t.overview], ['labs', t.labs], ['similar', t.similar], ['docs', t.docs], ['prot', t.prot]] as const).map(([k, l]) => (
                     <button key={k} onClick={() => setTab(k)} aria-pressed={tab === k}
                       className={`flex shrink-0 items-center gap-1.5 border-b-2 px-3 py-2.5 text-[13px] ${tab === k ? 'border-teal font-semibold text-[#14212B]' : 'border-transparent text-[#5B6B7C] hover:text-[#14212B]'}`}>
                       {k === 'prot' && (isOpen ? <Unlock size={13} className="text-teal" /> : <Lock size={13} />)}{l}
@@ -223,6 +240,7 @@ export default function Portal() {
                 <motion.div key={tab} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.12 }}>
                   {tab === 'overview' && <Overview p={p} t={t} lang={lang} />}
                   {tab === 'labs' && <Labs p={p} t={t} lang={lang} />}
+                  {tab === 'similar' && <Similar p={p} lang={lang} unlocked={isOpen} goProt={() => setTab('prot')} />}
                   {tab === 'docs' && <Docs p={p} t={t} lang={lang} docId={docId} setDocId={setDocId} />}
                   {tab === 'prot' && (
                     isOpen ? <Protected p={p} t={t} lang={lang} relock={relock} /> : (
@@ -257,7 +275,7 @@ export default function Portal() {
                 <div className="flex items-center gap-1.5 border-b border-black/[0.06] px-3.5 py-2 text-[12px] font-semibold"><ShieldCheck size={13} className="text-teal" />{t.audit}</div>
                 <ul className="divide-y divide-black/[0.05] text-[12px]">
                   {log.filter((l) => l.pid === p.id).slice(0, 5).map((l, i) => (
-                    <li key={i} className="flex gap-3 px-3.5 py-1.5"><span className="font-mono text-[#7A8893]">{l.time}</span><span className="text-[#4B5A66]">{t.doctor} · {t[l.text]}</span></li>
+                    <li key={i} className="flex gap-3 px-3.5 py-1.5"><span className="font-mono text-[#7A8893]">{l.time}</span><span className="text-[#4B5A66]">{t.doctor} · {t[l.text]}{l.extra ? ` ${l.extra}` : ''}</span></li>
                   ))}
                 </ul>
               </div>
@@ -265,6 +283,7 @@ export default function Portal() {
           )}
         </main>
       </div>
+      )}
     </div>
   )
 }
