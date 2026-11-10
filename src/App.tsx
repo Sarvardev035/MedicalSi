@@ -5,6 +5,7 @@ import { LANGS, useLang } from './i18n'
 import Demo from './components/Demo'
 import { Lessons, Lifeline, Roadmap } from './components/Future'
 import { UploadSoon } from './components/UploadSoon'
+import Portal from './components/Portal'
 import { Edge, Explorer, Global, Journey, Platform, Station, Twin } from './components/Vision'
 import { Business, Capabilities, Doctors, Founder, Hero, How, NameSection, Next, Problem, Reveal, Section, Stakes, Trust, WhyNow } from './components/Story'
 
@@ -17,11 +18,12 @@ function Aurora() {
   )
 }
 
-type Page = 'home' | 'product' | 'treatment' | 'why-msi' | 'business' | 'team'
-const PAGES: Exclude<Page, 'home'>[] = ['product', 'treatment', 'why-msi', 'business', 'team']
+type Page = 'home' | 'portal' | 'product' | 'treatment' | 'why-msi' | 'business' | 'team'
+const PAGES: Exclude<Page, 'home'>[] = ['portal', 'product', 'treatment', 'why-msi', 'business', 'team']
 
 const PAGE_TEXT = {
   en: {
+    portal: ['Clinic portal', 'Open a synthetic patient by passport: history, medicines, labs, scanned papers and protected data.'],
     product: ['Product', 'How MSi works: the platform, the pipeline and the clinic scanning station.'],
     treatment: ['Treatment map', 'Where to treat, global case lessons, the personal medical lifeline and the digital twin concept.'],
     'why-msi': ['Why MSi', 'The problem up close, why it matters, and how MSi compares.'],
@@ -30,6 +32,7 @@ const PAGE_TEXT = {
     more: 'Explore MSi', back: 'Home', open: 'Open',
   },
   ru: {
+    portal: ['Портал клиники', 'Откройте синтетического пациента по паспорту: история, лекарства, анализы, сканы и защищённые данные.'],
     product: ['Продукт', 'Как работает MSi: платформа, конвейер и станция сканирования.'],
     treatment: ['Карта лечения', 'Где лечиться, мировой опыт, медицинская история жизни и концепт цифрового двойника.'],
     'why-msi': ['Почему MSi', 'Проблема вблизи, почему это важно и сравнение с другими.'],
@@ -38,6 +41,7 @@ const PAGE_TEXT = {
     more: 'Узнать больше', back: 'Главная', open: 'Открыть',
   },
   uz: {
+    portal: ['Klinika portali', 'Sintetik bemorni pasport bo‘yicha oching: tarix, dorilar, tahlillar, skanlar va maxfiy ma’lumotlar.'],
     product: ['Mahsulot', "MSi qanday ishlaydi: platforma, konveyer va skanerlash stansiyasi."],
     treatment: ['Davolash xaritasi', "Qayerda davolanish, global tajriba, umrbod tibbiy tarix va Digital Twin konsepti."],
     'why-msi': ['Nega MSi', "Muammo yaqindan, nega muhim va boshqalar bilan taqqoslash."],
@@ -141,7 +145,7 @@ function MoreLinks({ except }: { except?: Page }) {
   return (
     <Section id="more">
       <div className="eyebrow mb-4">{P.more}</div>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {PAGES.filter((p) => p !== except).map((p, i) => (
           <Reveal key={p} delay={i * 0.05}>
             <a href={`#${p}`} className="glass group flex h-full flex-col justify-between gap-4 rounded-3xl p-5 transition hover:-translate-y-1 hover:bg-white/[0.09]">
@@ -175,6 +179,7 @@ function DemoSection() {
 export default function App() {
   const { t } = useLang()
   const page = usePage()
+  if (page === 'portal') return <Portal />
   return (
     <div id="top" className="relative">
       <Aurora />
