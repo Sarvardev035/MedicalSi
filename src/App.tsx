@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Menu, X } from 'lucide-react'
 import { LANGS, useLang } from './i18n'
 import Demo from './components/Demo'
 import { Lessons, Lifeline, Roadmap } from './components/Future'
+import { UploadSoon } from './components/UploadSoon'
 import { Edge, Explorer, Global, Journey, Platform, Station, Twin } from './components/Vision'
 import { Business, Capabilities, Doctors, Founder, Hero, How, NameSection, Next, Problem, Reveal, Section, Stakes, Trust, WhyNow } from './components/Story'
 
@@ -179,7 +180,7 @@ export default function App() {
       <Aurora />
       <Nav page={page} />
       <main key={page}>
-        {page === 'home' && (<><Hero /><Problem /><Capabilities /><Roadmap /><DemoSection /><MoreLinks /><Next /></>)}
+        {page === 'home' && (<><Hero /><Problem /><Capabilities /><Roadmap /><DemoSection /><UploadSoon /><MoreLinks /><Next /></>)}
         {page === 'product' && (<><PageHead page="product" /><Platform /><How /><Station /><MoreLinks except="product" /></>)}
         {page === 'treatment' && (<><PageHead page="treatment" /><Explorer /><Lessons /><Lifeline /><Twin /><MoreLinks except="treatment" /></>)}
         {page === 'why-msi' && (<><PageHead page="why-msi" /><Journey /><Stakes /><Edge /><Doctors /><Trust /><MoreLinks except="why-msi" /></>)}
