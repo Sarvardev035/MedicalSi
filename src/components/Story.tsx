@@ -69,7 +69,14 @@ export function Hero() {
 }
 
 function HeroVisual() {
-  return <ProductShot />
+  const { lang } = useLang()
+  const label = { en: 'Open the demo clinic portal', ru: 'Открыть демо-портал клиники', uz: 'Demo klinika portalini ochish' }[lang]
+  return (
+    <a href="#portal" aria-label={label} className="group relative block rounded-xl outline-offset-4 transition hover:-translate-y-1">
+      <ProductShot />
+      <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-lg bg-[#14212B] px-3 py-2 text-xs font-semibold text-white shadow-lg ring-1 ring-white/10 transition group-hover:bg-teal sm:bottom-4 sm:right-4 sm:text-sm">{label}<ArrowRight size={14} /></span>
+    </a>
+  )
 }
 
 /* ---------------- WHAT MSi STANDS FOR ---------------- */
