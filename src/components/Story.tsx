@@ -5,7 +5,7 @@ import {
   Link2, LineChart, Lock, ScanLine, ShieldCheck, Sparkles, Stethoscope, TestTubes, Wand2, Workflow, AlertTriangle, Users, Plane,
 } from 'lucide-react'
 import { useLang } from '../i18n'
-import { NetworkBg } from './Live'
+import ProductShot from './ProductShot'
 
 export function Reveal({ children, delay = 0, className = '' }: { children: ReactNode; delay?: number; className?: string }) {
   return (
@@ -44,14 +44,13 @@ export function Hero() {
   const { t } = useLang()
   return (
     <section className="gutter relative overflow-hidden pb-16 pt-28 sm:pb-24 sm:pt-36">
-      <NetworkBg className="opacity-50 [mask-image:linear-gradient(to_bottom,black_60%,transparent)]" />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
         <div>
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass mb-6 inline-flex items-center gap-2 rounded-full px-3 py-1.5">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-aqua" />
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-6 inline-flex items-center gap-2 rounded-md border border-white/10 px-2.5 py-1">
+            <span className="h-1.5 w-1.5 rounded-full bg-aqua" />
             <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/85">{t.hero.eyebrow}</span>
           </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.8 }} className="font-display text-[34px] font-extrabold leading-[1.04] tracking-tight sm:text-5xl lg:text-[64px]">
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.8 }} className="font-display text-[34px] font-semibold leading-[1.04] tracking-tight sm:text-5xl lg:text-[64px]">
             {t.hero.title}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.8 }} className="lead mt-6 max-w-xl">
@@ -70,56 +69,7 @@ export function Hero() {
 }
 
 function HeroVisual() {
-  const { t } = useLang()
-  const papers = [
-    { r: -14, x: -70, y: -30, c: 'Анализы 2021' },
-    { r: 9, x: 40, y: -60, c: "Ko'chirma 2022" },
-    { r: -4, x: -20, y: 40, c: 'Tahlil 2023' },
-    { r: 16, x: 70, y: 30, c: 'Consult 2024' },
-  ]
-  const rows = [
-    { d: '2021', l: 'HbA1c 6.4 %', c: 'bg-aqua' },
-    { d: '2022', l: 'Lisinopril 10 mg', c: 'bg-emerald-300' },
-    { d: '2022', l: 'Allergy: penicillin', c: 'bg-rose-300' },
-    { d: '2024', l: 'Metformin 1000 mg', c: 'bg-emerald-300' },
-    { d: '2025', l: 'HbA1c 6.6 %', c: 'bg-aqua' },
-  ]
-  return (
-    <div className="relative mx-auto grid w-full max-w-md grid-cols-2 gap-3 sm:gap-4">
-      <div className="glass relative h-72 overflow-hidden rounded-3xl sm:h-80">
-        <div className="absolute left-3 top-3 font-mono text-[10px] uppercase tracking-wider text-muted">{t.hero.before}</div>
-        {papers.map((p, i) => (
-          <motion.div
-            key={i}
-            className="absolute left-1/2 top-1/2 h-24 w-[72px] rounded bg-[#FBFAF5] p-1.5 shadow-2xl sm:h-28 sm:w-20"
-            style={{ marginLeft: -36, marginTop: -48 }}
-            initial={{ rotate: 0, x: 0, y: 0 }}
-            animate={{ rotate: [p.r, p.r + 4, p.r], x: [p.x * 0.6, p.x * 0.65, p.x * 0.6], y: [p.y, p.y - 6, p.y] }}
-            transition={{ duration: 5 + i, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <div className="truncate font-hand text-[11px] leading-none text-[#1B2733]">{p.c}</div>
-            <div className="mt-1.5 space-y-1">{Array.from({ length: 6 }).map((_, j) => <div key={j} className="h-[2px] rounded bg-[#1B2733]/25" style={{ width: `${50 + ((j * 17 + i * 11) % 45)}%` }} />)}</div>
-          </motion.div>
-        ))}
-      </div>
-      <div className="glass-strong relative h-72 overflow-hidden rounded-3xl p-3 sm:h-80">
-        <div className="mb-2 font-mono text-[10px] uppercase tracking-wider text-aqua">{t.hero.after}</div>
-        <div className="space-y-2">
-          {rows.map((r, i) => (
-            <motion.div key={i} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-2 py-1.5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 + i * 0.18 }}>
-              <span className={`h-2 w-2 shrink-0 rounded-full ${r.c}`} />
-              <span className="font-mono text-[10px] text-muted">{r.d}</span>
-              <span className="min-w-0 truncate text-[11px] sm:text-xs">{r.l}</span>
-              <Link2 size={11} className="ml-auto shrink-0 text-amber" />
-            </motion.div>
-          ))}
-        </div>
-        <motion.div className="absolute inset-x-3 bottom-3 rounded-lg border border-aqua/30 bg-aqua/10 px-2 py-1.5 text-[10px] text-aqua" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.7 }}>
-          <BadgeCheck size={11} className="mr-1 inline" /> 17 facts · 5 sources
-        </motion.div>
-      </div>
-    </div>
-  )
+  return <ProductShot />
 }
 
 /* ---------------- WHAT MSi STANDS FOR ---------------- */
@@ -135,7 +85,7 @@ export function NameSection() {
           return (
             <Reveal key={x.l} delay={i * 0.1}>
               <div className="glass group relative h-full overflow-hidden rounded-3xl p-6">
-                <div className="pointer-events-none absolute -right-4 -top-10 font-display text-[150px] font-extrabold leading-none text-white/[0.06] transition group-hover:text-aqua/10">{x.l}</div>
+                <div className="pointer-events-none absolute -right-4 -top-10 font-display text-[150px] font-semibold leading-none text-white/[0.06] transition group-hover:text-aqua/10">{x.l}</div>
                 <Icon className="mb-6 text-aqua" size={26} />
                 <div className="font-display text-2xl font-bold"><span className="text-aqua">{x.l}</span>{x.w.slice(1)}</div>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{x.d}</p>
@@ -208,7 +158,7 @@ function ChaosVisual({ p }: { p: MotionValue<number> }) {
       {items.map((it, i) => <Chip key={i} it={it} i={i} p={p} />)}
       <motion.div style={{ opacity: clock, scale: clock }} className="glass-strong absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center rounded-3xl px-6 py-5">
         <Clock className="mb-1 text-amber" size={30} />
-        <div className="tabular font-display text-4xl font-extrabold">15:00</div>
+        <div className="tabular font-display text-4xl font-semibold">15:00</div>
         <Stethoscope className="mt-1 text-white/70" size={18} />
       </motion.div>
     </div>
@@ -309,7 +259,7 @@ export function Founder() {
         <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-aqua/20 blur-3xl" />
         <div className="grid gap-10 lg:grid-cols-[auto_1fr]">
           <Reveal>
-            <div className="relative grid h-28 w-28 place-items-center rounded-[28px] border border-white/20 bg-gradient-to-br from-aqua/40 via-white/10 to-amber/30 font-display text-5xl font-extrabold sm:h-36 sm:w-36">S</div>
+            <div className="relative grid h-28 w-28 place-items-center rounded-[28px] border border-white/20 bg-gradient-to-br from-aqua/40 via-white/10 to-amber/30 font-display text-5xl font-semibold sm:h-36 sm:w-36">S</div>
           </Reveal>
           <div>
             <Reveal>
